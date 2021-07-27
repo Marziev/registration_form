@@ -12,7 +12,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = password_hash(trim($_REQUEST['password']), PASSWORD_BCRYPT);
     $gender = ($_REQUEST['gender']);
     $country = ($_REQUEST['country']);
-    $summary = mb_substr($_REQUEST['summary'],0,250, 'utf-8');
+    $summary = mb_substr($_REQUEST['summary'],0,5, 'utf-8');
     $file_address = 'http://marziev.beget.tech/registration_form/file/'.$_FILES['userfile']['name'];
     
     $uploaddir = './file/';
