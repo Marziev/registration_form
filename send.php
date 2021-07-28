@@ -13,10 +13,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $gender = ($_REQUEST['gender']);
     $country = ($_REQUEST['country']);
     $summary = mb_substr($_REQUEST['summary'],0,250, 'utf-8');
-    $file_address = 'http://marziev.beget.tech/registration_form/file/'.$_FILES['userfile']['name'];
-    
-    $uploaddir = './file/';
+    // ЗАГРУЗКА ФАЙЛА
+    $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/registration_form/file/';
     $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
+    $file_address = $uploadfile;
+
+    print_r($_FILES);
 
     echo '<pre>';
     if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
@@ -38,9 +40,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = mysqli_query($conn, "SELECT email, password FROM customers where email = '$email' LIMIT 1");
             $user = mysqli_fetch_array($user, MYSQLI_ASSOC);
 
+            if (isset($_GET['page'])) {
+                $page = $_GET['page'];
+            } else {
+                $page = 1;
+            }
+
+            $notesOnPage = 3;
+            $from = ($page - 1) * $notesOnPage;
+            
+
             if ($user) {
                 if (password_verify(trim($_REQUEST['password']), $user['password'])) {
-                    $result = mysqli_query($conn, "SELECT * FROM customers");
+                    // $result = mysqli_query($conn, "SELECT * FROM customers");
+                    $result = mysqli_query($conn, "SELECT * FROM customers LIMIT $from, $notesOnPage");
 
                     while($answer = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                         $users[] = $answer;
