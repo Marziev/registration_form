@@ -40,27 +40,6 @@
           <?php endforeach; ?>
         </tbody>
       </table>
-      <a href="?mode=admin_panel&page=2">2</a>
-      <?php
-          require('sen.php');
-          if ($_GET['page']) {
-            $page = $_GET['page']; 
-          } else {
-            $page = 1;
-          }
-            if ($users) {
-                  $notesOnPage = 3;
-                  $from = ($page - 1) * $notesOnPage;
-                  $result = mysqli_query($conn, "SELECT * FROM customers LIMIT $from, $notesOnPage");
-                  
-      
-                  while($answer = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                      $users[] = $answer;        
-                  }
-                  require('users.php');
-          }
-      
-
-      ?>
+      <a href="?page-2">2</a>
 </body>
 </html>
