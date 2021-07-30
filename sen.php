@@ -2,20 +2,19 @@
 
 require('includes/connect.php');
 
-
-    $email = trim($_REQUEST['email']);
-    $user = mysqli_query($conn, "SELECT email, password FROM customers where email = '$email' LIMIT 1");
-    $user = mysqli_fetch_array($user, MYSQLI_ASSOC);
-
-    if (isset($_GET['pages'])) {
-        $page = $_GET['pages'];
+    if (isset($_GET['page'])) {
+        $page = $_GET['page'];
     } else {
         $page = 1;
     }
 
     $notesOnPage = 3;
     $from = ($page - 1) * $notesOnPage;
-    
+
+    $email = trim($_REQUEST['email']);
+    $user = mysqli_query($conn, "SELECT email, password FROM customers where email = '$email' LIMIT 1");
+    $user = mysqli_fetch_array($user, MYSQLI_ASSOC);
+
 
     if ($user || $page == 1) {
         if (password_verify(trim($_REQUEST['password']), $user['password'])) {
